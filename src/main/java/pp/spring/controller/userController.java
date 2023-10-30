@@ -38,22 +38,20 @@ public class userController {
         return "redirect:/users";
     }
 
-    @GetMapping("user-delete/{id}")
-    //public String deleteUser(@RequestParam Long id) {
-    public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteById(id);
+    @GetMapping("user-delete")
+    public String deleteUser(@RequestParam(value="id", required = false, defaultValue = "0") Long idVar) {
+        System.out.println("id" + idVar);
+        userService.deleteById(idVar);
         return "redirect:/users";
     }
 
-    @GetMapping("/user-update/{id}")
-    //@RequestMapping(value = "/user-update/{id}", method = RequestMethod.GET)
-    //public String updateUserForm(@RequestParam Long id, Model model) {
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
+    @RequestMapping(value = "/user-update", method = RequestMethod.GET)
+    public String updateUserForm(@RequestParam(value="id", required = false, defaultValue = "0") Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         return "/user-update";
     }
-    //@RequestMapping(value = "/user-update", method = RequestMethod.POST)
+
     @PostMapping("user-update")
     public String updateUser(User user) {
         userService.saveUser(user);
