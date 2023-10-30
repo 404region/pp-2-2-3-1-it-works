@@ -12,20 +12,19 @@ import java.util.List;
 @Controller
 public class userController {
     private final UserService userService;
-    private Long id;
-    private Model model;
 
     @Autowired
     public userController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public String findAll(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "users";
+        return "/users";
     }
+
 
     @GetMapping("/user-create")
     public String createUserForm(User user) {
@@ -35,14 +34,14 @@ public class userController {
     @PostMapping("/user-create")
     public String createUser(User user) {
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @GetMapping("user-delete")
     public String deleteUser(@RequestParam(value="id", required = false, defaultValue = "0") Long idVar) {
         System.out.println("id" + idVar);
         userService.deleteById(idVar);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/user-update", method = RequestMethod.GET)
@@ -55,6 +54,6 @@ public class userController {
     @PostMapping("user-update")
     public String updateUser(User user) {
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 }
